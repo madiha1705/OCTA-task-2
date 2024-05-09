@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calligraphy To-Do List</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sacramento&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Lucida Hadwriting', cursive;
+            background: linear-gradient(to right, #ffdde1, #ee9ca7); /* Soft pink gradient */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .todo-container {
+            background: linear-gradient(to bottom, #a8edea, #fed6e3); /* Soft pastel tones */
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333; /* Dark text for contrast */
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        input {
+            padding: 10px;
+            width: 80%;
+            border: none;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            font-family: 'Lucida Handwriting', cursive;
+        }
+
+        .add-btn {
+            background-color: #ff6b81; /* Warm pink */
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 1.2em;
+        }
+
+        .add-btn:hover {
+            background-color: #ff3f4d; /* Darker pink */
+        }
+
+        .task-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: left;
+        }
+
+        .task-item {
+            background-color: white;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .task-text {
+            flex-grow: 1;
+            font-size: 1.2em;
+            font-family: 'Lucida Handwriting', cursive;
+        }
+
+        .completed {
+            text-decoration: line-through;
+            color: gray;
+        }
+
+        .task-btn {
+            border: none;
+            background: none;
+            cursor: pointer;
+            color: #ff6b81; /* Warm pink */
+            font-size: 1.2em;
+            transition: 0.3s;
+        }
+
+        .task-btn:hover {
+            color: #ff3f4d; /* Darker pink */
+        }
+    </style>
+</head>
+<body>
+    <div class="todo-container">
+        <h1>My To-Do List</h1>
+        <input type="text" id="task-input" placeholder="Add a new task..." onkeyup="addTaskOnEnter(event)">
+        <button class="add-btn" onclick="addTask()">Add Task</button>
+        <ul class="task-list" id="task-list">
+            <!-- Tasks will be dynamically added here -->
+        </ul>
+    </div>
+
+    <script>
+        // Function to add a task
+        function addTask() {
+            const taskInput = document.getElementById("task-input");
+            const taskList = document.getElementById("task-list");
+            const taskText = taskInput.value.trim();
+
+            if (taskText !== "") {
+                const listItem = document.createElement("li");
+                listItem.className = "task-item";
+
+                const taskSpan = document.createElement("span");
+                taskSpan.className = "task-text";
+                taskSpan.innerText = taskText;
+
+                const deleteButton = document.createElement("button");
+                deleteButton.className = "task-btn";
+                deleteButton.innerHTML = '<i class="fas fa-trash"></i>';
+                deleteButton.onclick = () => listItem.remove();
+
+                const completeButton = document.createElement("button");
+                completeButton.className = "task-btn";
+                completeButton.innerHTML = '<i class="fas fa-check"></i>';
+                completeButton.onclick = () => {
+                    taskSpan.classList.toggle("completed");
+                };
+
+                listItem.appendChild(taskSpan);
+                listItem.appendChild(completeButton);
+                listItem.appendChild(deleteButton);
+
+                taskList.appendChild(listItem);
+                taskInput.value = "";
+            }
+        }
+
+        // Function to add a task by pressing the Enter key
+        function addTaskOnEnter(event) {
+            if (event.key === "Enter") {
+                addTask();
+            }
+        }
+    </script>
+</body>
+</html>
